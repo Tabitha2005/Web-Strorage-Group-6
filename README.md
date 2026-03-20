@@ -15,8 +15,7 @@ Apply knowledge of the three browser web storage mechanisms to build a secure an
 
 ```
 Web-Storage-Group-6/
-├── index.html                  # Single entry point — all sections gated behind login
-├── .gitignore                  # Excludes doc_and_planning/ and other local files
+├── index.html                  # Single entry point — all sections gated behind login # Excludes doc_and_planning/ andother local files
 ├── app/
 │   ├── auth.js                 # Task 1 — Cookie-based login/logout
 │   ├── theme.js                # Task 2 — localStorage theme & settings
