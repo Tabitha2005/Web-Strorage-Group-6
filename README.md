@@ -13,17 +13,18 @@ Apply knowledge of the three browser web storage mechanisms to build a secure an
 
 ## 📁 Project Structure
 
-
+```
 Web-Storage-Group-6/
-├── index.html # Single entry point — all sections gated behind login
+├── index.html                    (Single entry point — all sections gated behind login)
 ├── app/
-│ ├── auth.js # Task 1 — Cookie-based login/logout
-│ ├── theme.js # Task 2 — localStorage theme & settings
-│ ├── cart.js # Task 3 — sessionStorage shopping cart
-│ └── security.js # Task 4 — XSS prevention, CSRF tokens, CryptoJS
+│   ├── auth.js                   (Task 1 — Cookie-based login/logout)
+│   ├── theme.js                  (Task 2 — localStorage theme & settings)
+│   ├── cart.js                   (Task 3 — sessionStorage shopping cart)
+│   └── security.js               (Task 4 — XSS prevention, CSRF tokens, CryptoJS)
 ├── styles/
-│ └── main.css # Light and dark theme styles
-├── doc_and_planning/ # Supporting documents (notes, tracker, reflection)
+│   └── main.css                  (Light and dark theme styles)
+└── README.md                     (Project documentation)
+```
 
 
 ---
@@ -114,6 +115,7 @@ Encryption: Sensitive data (e.g., user email) encrypted using CryptoJS before st
 
 ### Name	Contribution:
 Benigne Uwitonze:	Authentication, Theme (localStorage), Integration, Documentation
+
 Tabitha Kuir: Shopping Cart (sessionStorage), Security Implementation, Testing & Debugging
 
 ---
