@@ -34,16 +34,19 @@ Web-Storage-Group-6/
    ```bash
    git clone https://github.com/Tabitha2005/Web-Strorage-Group-6.git
 
-Open the project folder and launch index.html using a local development server such as Live Server in VS Code.
+2. Open the project folder and launch index.html using a local development server such as Live Server in VS Code.
 
-Open your browser and navigate to:
+3. Open your browser and navigate to:
 
 http://127.0.0.1:5500/index.html
 
 ⚠️ Do not open index.html directly as a file (file://) — some cookie behaviours require a server context.
 
-✅ Tasks Implemented
-Task 1 — User Authentication with Cookies (app/auth.js)
+---
+
+## ✅ Tasks Implemented
+
+### Task 1: User Authentication with Cookies (app/auth.js)
 
 Login form with username and password fields
 
@@ -57,7 +60,7 @@ Logout deletes the authToken cookie and returns to the login view
 
 All main content sections are hidden until the user logs in
 
-Task 2 — Theme Preferences with localStorage (app/theme.js)
+### Task 2: Theme Preferences with localStorage (app/theme.js)
 
 Light / dark mode toggle button
 
@@ -69,7 +72,7 @@ Font size preference persists across sessions
 
 Handles storage limit errors gracefully
 
-Task 3 — Session-Specific Shopping Cart (app/cart.js)
+### Task 3:  Session-Specific Shopping Cart (app/cart.js)
 
 Products displayed with Add to Cart functionality
 
@@ -81,7 +84,7 @@ Dynamic cart updates (items, totals)
 
 Options to remove items or clear cart
 
-Task 4 — Security Implementation (app/security.js)
+### Task 4: Security Implementation (app/security.js)
 
 XSS Prevention: User input sanitized using encodeURIComponent and safely rendered using textContent
 
@@ -89,67 +92,49 @@ CSRF Protection: Token generated using Math.random() and validated during form s
 
 Encryption: Sensitive data (e.g., user email) encrypted using CryptoJS before storing in localStorage
 
-Task 5 — Reflection & Comparison
+---
 
-Completed comparison of Cookies, Local Storage, and Session Storage
+## 🛠️ Technologies Used
 
-Answered discussion questions
+1. HTML5
 
-Included use-case analysis and behavior observations
+2. CSS3
 
-Final Challenge — Full Integration
+3. JavaScript (ES6)
 
-All features are integrated into one application:
+4. Web Storage APIs
 
-Login system using cookies
+5. CryptoJS (AES encryption)
 
-Theme persistence using localStorage
+6. Live Server (VS Code)
 
-Session-based cart using sessionStorage
+---
 
-Security protections applied across all inputs and forms
+## 👥 Group 6 Members & Contributions
 
-🔒 Security Notes
-Feature	Implementation	Limitation
-HttpOnly cookies	Not enforceable via JS	Requires backend/server
-Secure cookies	Not used in local HTTP	Requires HTTPS
-CSRF token	Simulated using JS	Should be server-generated
-XSS protection	Encoding + safe DOM insertion	No external library used
-Encryption	CryptoJS AES	Key is hardcoded (not secure for production)
+### Name	Contribution:
+Benigne Uwitonze:	Authentication, Theme (localStorage), Integration, Documentation
+Tabitha Kuir: Shopping Cart (sessionStorage), Security Implementation, Testing & Debugging
 
-🛠️ Technologies Used
+---
 
-HTML5
-
-CSS3
-
-JavaScript (ES6)
-
-Web Storage APIs
-
-CryptoJS (AES encryption)
-
-Live Server (VS Code)
-
-👥 Group 6 Members & Contributions
-Name	Contribution
-Benigne Uwitonze	Authentication, Theme (localStorage), Integration, Documentation
-Tabitha Kuir	Shopping Cart (sessionStorage), Security Implementation, Testing & Debugging
-🤝 Collaboration Approach
+## 🤝 Collaboration Approach
 
 This project was completed collaboratively, with all team members contributing to:
 
-Understanding and discussing Web Storage concepts
+1. Understanding and discussing Web Storage concepts
 
-Planning the implementation approach
+2. Planning the implementation approach
 
-Developing features together
+3. Developing features together
 
-Reviewing and testing each other's work
+4. Reviewing and testing each other's work
 
-We followed a shared responsibility model rather than strict task separation to ensure full understanding across the team.
+5. We followed a shared responsibility model rather than strict task separation to ensure full understanding across the team.
 
-🕵️ Incognito Mode Observations
+---
+
+## 🕵️ Incognito Mode Observations
 
 When testing the application in incognito/private browsing mode:
 
@@ -161,7 +146,9 @@ sessionStorage behaves the same (cleared when tab closes)
 
 This demonstrates how browser storage behaves differently in private environments.
 
-📎 Additional Documents
+---
+
+## 📎 Additional Documents
 
 The following supporting documents are included in the repository:
 
