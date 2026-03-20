@@ -1,4 +1,4 @@
-# Web Storage Mechanisms — E-Commerce Demo
+# Web Storage Mechanisms — E-Commerce Demo  
 ### Group 6 | Group Activity
 
 A fully functional e-commerce demo application built to demonstrate the practical use of **Cookies**, **localStorage**, and **sessionStorage** in a real-world frontend context. The project also implements security measures including XSS prevention and CSRF token protection.
@@ -13,17 +13,18 @@ Apply knowledge of the three browser web storage mechanisms to build a secure an
 
 ## 📁 Project Structure
 
-```
+
 Web-Storage-Group-6/
-├── index.html                  # Single entry point — all sections gated behind login # Excludes doc_and_planning/ andother local files
+├── index.html # Single entry point — all sections gated behind login
 ├── app/
-│   ├── auth.js                 # Task 1 — Cookie-based login/logout
-│   ├── theme.js                # Task 2 — localStorage theme & settings
-│   ├── cart.js                 # Task 3 — sessionStorage shopping cart
-│   └── security.js             # Task 4 — XSS prevention, CSRF tokens, CryptoJS
+│ ├── auth.js # Task 1 — Cookie-based login/logout
+│ ├── theme.js # Task 2 — localStorage theme & settings
+│ ├── cart.js # Task 3 — sessionStorage shopping cart
+│ └── security.js # Task 4 — XSS prevention, CSRF tokens, CryptoJS
 ├── styles/
-    └── main.css                # Light and dark theme styles
-```
+│ └── main.css # Light and dark theme styles
+├── doc_and_planning/ # Supporting documents (notes, tracker, reflection)
+
 
 ---
 
@@ -32,87 +33,140 @@ Web-Storage-Group-6/
 1. Clone the repository:
    ```bash
    git clone https://github.com/Tabitha2005/Web-Strorage-Group-6.git
-   ```
 
-2. Open the project folder and launch `index.html` using a local development server such as **Live Server** in VS Code.
+Open the project folder and launch index.html using a local development server such as Live Server in VS Code.
 
-3. Open your browser and navigate to `http://127.0.0.1:5500/index.html`
+Open your browser and navigate to:
 
-> ⚠️ Do **not** open `index.html` directly as a file (`file://`) — some cookie behaviours require a server context.
+http://127.0.0.1:5500/index.html
 
----
+⚠️ Do not open index.html directly as a file (file://) — some cookie behaviours require a server context.
 
-## ✅ Tasks Implemented
+✅ Tasks Implemented
+Task 1 — User Authentication with Cookies (app/auth.js)
 
-### Task 1 — User Authentication with Cookies (`app/auth.js`)
-- Login form with `username` and `password` fields
-- Sets a cookie named `authToken` with value `user123` on successful login
-- Cookie expiration set to **7 days** from login date
-- `HttpOnly` and `Secure` flags documented as server-side requirements (cannot be enforced from client-side JavaScript on HTTP)
-- Logout deletes the `authToken` cookie and returns to the login view
-- All main content sections are **hidden until the user logs in**
+Login form with username and password fields
 
-### Task 2 — Theme Preferences with localStorage (`app/theme.js`)
-- Light / dark mode toggle button in the header
-- Selected theme stored in `localStorage` and applied automatically on every page load
-- Settings stored as a JSON object `{ theme, fontSize }` using `JSON.stringify` and `JSON.parse`
-- Font size slider persists across sessions via `localStorage`
-- Handles `QuotaExceededError` gracefully
+Sets a cookie named authToken with value user123 on successful login
 
-### Task 3 — Session-Specific Shopping Cart (`app/cart.js`)
-- Five products displayed with individual **Add to Cart** buttons
-- Cart stored in `sessionStorage` — resets automatically when the browser tab is closed
-- Duplicate products increment quantity instead of creating a duplicate entry
-- Cart total and item count updated in real time
-- **Remove** individual items or **Clear Cart** entirely
-- Correct implementation uses `JSON.parse(sessionStorage.getItem('cart')) || []`
+Cookie expiration set to 7 days from login date
 
-### Task 4 — Security Implementation (`app/security.js`)
-- **XSS Prevention:** User input sanitized using `encodeURIComponent` before display; inserted into the DOM via `textContent` only — never `innerHTML`
-- **CSRF Protection:** Token generated once on page load using `Math.random().toString(36).substr(2)`, stored in `sessionStorage`, and injected as a hidden input into all forms. Submission is blocked if the token does not match.
-- **CryptoJS Challenge:** Sensitive data (user email) encrypted with `CryptoJS.AES.encrypt` before being saved to `localStorage`. Raw stored value is unreadable without the secret key. Decrypted on demand using `CryptoJS.AES.decrypt`.
+HttpOnly and Secure flags documented as server-side requirements (cannot be enforced from client-side JavaScript on HTTP)
 
-### Task 5 — Reflection & Comparison
-See `doc_and_planning/05_task5_reflection_and_comparison.md` for the completed comparison table, discussion question answers, scenario matching, and incognito mode testing observations.
+Logout deletes the authToken cookie and returns to the login view
 
-### Final Challenge — Full Integration
-All tasks are combined into a single page application:
-- Login with cookies → unlocks the full application
-- Theme toggle persists via `localStorage`
-- Cart resets on tab close via `sessionStorage`
-- All forms protected with CSRF tokens and sanitized input
+All main content sections are hidden until the user logs in
 
----
+Task 2 — Theme Preferences with localStorage (app/theme.js)
 
-## 🔒 Security Notes
+Light / dark mode toggle button
 
-| Feature | Implementation | Limitation |
-|---------|---------------|------------|
-| `HttpOnly` cookie flag | Cannot be set from JavaScript | Must be set server-side in production |
-| `Secure` cookie flag | Omitted for local HTTP development | Required on HTTPS in production |
-| CSRF token | Simulated client-side with `Math.random()` | In production, tokens should be generated server-side |
-| XSS prevention | `encodeURIComponent` + `textContent` | No third-party sanitization library used |
-| Data encryption | CryptoJS AES in localStorage | Secret key is hardcoded — use environment variables in production |
+Selected theme stored in localStorage and applied automatically on every page load
 
----
+Settings stored as a JSON object { theme, fontSize } using JSON.stringify and JSON.parse
 
-## 🛠️ Technologies Used
+Font size preference persists across sessions
 
-- HTML5, CSS3, Vanilla JavaScript (ES6)
-- [CryptoJS 4.1.1](https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js) — AES encryption for the localStorage challenge
-- Live Server (VS Code extension) — local development server
+Handles storage limit errors gracefully
 
----
+Task 3 — Session-Specific Shopping Cart (app/cart.js)
 
-## 👥 Group 6 Members
+Products displayed with Add to Cart functionality
 
-| Name | Task |
-|------|------|
-| Benigne Uwitonze | Task 1 — Authentication, Task 2 — Theme / localStorage, Task 5 — Reflection |
-| Tabitha Kuir | Task 3 — Shopping Cart, Task 4 — Security, Task 5 — Integration |
+Cart stored in sessionStorage — resets when browser tab is closed
 
----
+Duplicate items increase quantity instead of duplicating entries
 
-## 📝 License
+Dynamic cart updates (items, totals)
 
-This project was created for academic purposes as part of a group activity on Web Storage Mechanisms.
+Options to remove items or clear cart
+
+Task 4 — Security Implementation (app/security.js)
+
+XSS Prevention: User input sanitized using encodeURIComponent and safely rendered using textContent
+
+CSRF Protection: Token generated using Math.random() and validated during form submission
+
+Encryption: Sensitive data (e.g., user email) encrypted using CryptoJS before storing in localStorage
+
+Task 5 — Reflection & Comparison
+
+Completed comparison of Cookies, Local Storage, and Session Storage
+
+Answered discussion questions
+
+Included use-case analysis and behavior observations
+
+Final Challenge — Full Integration
+
+All features are integrated into one application:
+
+Login system using cookies
+
+Theme persistence using localStorage
+
+Session-based cart using sessionStorage
+
+Security protections applied across all inputs and forms
+
+🔒 Security Notes
+Feature	Implementation	Limitation
+HttpOnly cookies	Not enforceable via JS	Requires backend/server
+Secure cookies	Not used in local HTTP	Requires HTTPS
+CSRF token	Simulated using JS	Should be server-generated
+XSS protection	Encoding + safe DOM insertion	No external library used
+Encryption	CryptoJS AES	Key is hardcoded (not secure for production)
+
+🛠️ Technologies Used
+
+HTML5
+
+CSS3
+
+JavaScript (ES6)
+
+Web Storage APIs
+
+CryptoJS (AES encryption)
+
+Live Server (VS Code)
+
+👥 Group 6 Members & Contributions
+Name	Contribution
+Benigne Uwitonze	Authentication, Theme (localStorage), Integration, Documentation
+Tabitha Kuir	Shopping Cart (sessionStorage), Security Implementation, Testing & Debugging
+🤝 Collaboration Approach
+
+This project was completed collaboratively, with all team members contributing to:
+
+Understanding and discussing Web Storage concepts
+
+Planning the implementation approach
+
+Developing features together
+
+Reviewing and testing each other's work
+
+We followed a shared responsibility model rather than strict task separation to ensure full understanding across the team.
+
+🕵️ Incognito Mode Observations
+
+When testing the application in incognito/private browsing mode:
+
+Cookies are temporary and deleted after the session
+
+localStorage is cleared once the session ends
+
+sessionStorage behaves the same (cleared when tab closes)
+
+This demonstrates how browser storage behaves differently in private environments.
+
+📎 Additional Documents
+
+The following supporting documents are included in the repository:
+
+[Discussion Notes](https://docs.google.com/document/d/1mbIO7QgWznKxuvrQ1mDyCNyLg_kHLRTAxY12lmOOUOg/edit?usp=sharing) — contains summaries, key concepts, and group insights
+
+[ Group Tracking Sheet ](https://docs.google.com/spreadsheets/d/11dNBQSWjXYBib6olifYq3C8rSSsJew-9rDMyX6lRX5U/edit?usp=sharing) — shows task allocation, participation, and meeting logs
+
+These documents demonstrate our collaborative learning process and individual contributions.
