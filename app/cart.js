@@ -27,6 +27,13 @@ function initializeCart() {
  */
 function displayProducts() {
   const productList = document.getElementById('productList');
+  
+  // ✨ IMPROVED: Check if product list element exists
+  if (!productList) {
+    console.warn('⚠️ Product list container not found in HTML');
+    return;
+  }
+  
   productList.innerHTML = '';
 
   PRODUCTS.forEach((product) => {
@@ -65,6 +72,44 @@ function saveCart(cart) {
 }
 
 /**
+ * Show a short visual confirmation when a product is added
+ */
+function showAddToCartFeedback(message) {
+  let feedback = document.getElementById('cartAddFeedback');
+
+  if (!feedback) {
+    feedback = document.createElement('div');
+    feedback.id = 'cartAddFeedback';
+    feedback.setAttribute('aria-live', 'polite');
+    feedback.style.position = 'fixed';
+    feedback.style.right = '16px';
+    feedback.style.bottom = '16px';
+    feedback.style.padding = '10px 14px';
+    feedback.style.borderRadius = '8px';
+    feedback.style.backgroundColor = '#1f7a1f';
+    feedback.style.color = '#ffffff';
+    feedback.style.fontSize = '14px';
+    feedback.style.fontWeight = '600';
+    feedback.style.boxShadow = '0 8px 18px rgba(0, 0, 0, 0.2)';
+    feedback.style.zIndex = '9999';
+    feedback.style.opacity = '0';
+    feedback.style.transition = 'opacity 0.2s ease';
+    document.body.appendChild(feedback);
+  }
+
+  feedback.textContent = message;
+  feedback.style.opacity = '1';
+
+  if (showAddToCartFeedback.timeoutId) {
+    clearTimeout(showAddToCartFeedback.timeoutId);
+  }
+
+  showAddToCartFeedback.timeoutId = setTimeout(() => {
+    feedback.style.opacity = '0';
+  }, 1400);
+}
+
+/**
  * Add a product to the cart
  * If product already exists, increment quantity; otherwise add new item
  */
@@ -93,6 +138,9 @@ function addToCart(productName, productPrice) {
 
   // Re-render cart display
   renderCart();
+
+  // Visual proof for user that the item was added
+  showAddToCartFeedback(`${productName} added to cart`);
 }
 
 /**
@@ -102,23 +150,39 @@ function addToCart(productName, productPrice) {
  */
 function renderCart() {
   const cart = getCart();
+  
+  // Keep original indexes so remove buttons always remove the correct item.
+  const validCartEntries = cart
+    .map((item, index) => ({ item, index }))
+    .filter((entry) => {
+      const currentItem = entry.item;
+      return currentItem && currentItem.product && currentItem.price !== undefined && currentItem.quantity > 0;
+    });
+  
   const cartItemsContainer = document.getElementById('cartItems');
   const cartTotal = document.getElementById('cartTotal');
   const cartCount = document.getElementById('cartCount');
 
+  if (!cartItemsContainer || !cartTotal || !cartCount) {
+    console.warn('Cart UI elements are missing in HTML.');
+    return;
+  }
+
   cartItemsContainer.innerHTML = '';
 
-  if (cart.length === 0) {
+  if (validCartEntries.length === 0) {
     cartItemsContainer.innerHTML = '<p class="empty-cart">Cart is empty</p>';
     cartTotal.textContent = '0.00';
     cartCount.textContent = '0';
+    console.log('ℹ️  Cart is empty');
     return;
   }
 
   let total = 0;
   let itemCount = 0;
 
-  cart.forEach((item, index) => {
+  validCartEntries.forEach((entry) => {
+    const item = entry.item;
     const subtotal = item.price * item.quantity;
     total += subtotal;
     itemCount += item.quantity;
@@ -135,7 +199,7 @@ function renderCart() {
         </div>
       </div>
       <div class="cart-item-actions">
-        <button class="btn btn-small btn-secondary remove-item-btn" data-index="${index}">Remove</button>
+        <button class="btn btn-small btn-secondary remove-item-btn" data-index="${entry.index}">Remove</button>
       </div>
     `;
     cartItemsContainer.appendChild(cartItem);
@@ -157,6 +221,12 @@ function renderCart() {
  * Remove an item from the cart by index
  */
 function removeFromCart(index) {
+  // ✨ IMPROVED: Validate index type and value
+  if (typeof index !== 'number' || index < 0) {
+    console.warn('⚠️ Invalid cart index:', index);
+    return;
+  }
+  
   const cart = getCart();
   if (index >= 0 && index < cart.length) {
     const removedItem = cart[index];

@@ -44,6 +44,10 @@ function generateAndInjectCSRFToken() {
     input.value = token;
   });
 
+  // ✨ IMPROVED: Warn if no CSRF inputs found in HTML
+  if (csrfInputs.length === 0) {
+    console.warn('⚠️ No CSRF token inputs found in HTML. Ensure all forms have: <input type="hidden" name="csrfToken">');
+  }
   const tokenDisplay = document.getElementById('csrfTokenDisplay');
   if (tokenDisplay) {
     tokenDisplay.textContent = token;
@@ -123,8 +127,14 @@ function displayReviewSafely(reviewText) {
  * The raw localStorage value will be unreadable without the secret key
  */
 function encryptData(value) {
+  // ✨ IMPROVED: Check if CryptoJS is loaded before using it
+  if (typeof CryptoJS === 'undefined') {
+    console.error('⚠️ CryptoJS library not loaded. Please include <script src="crypto-js.js"></script>');
+    return value; // Fallback: return unencrypted
+  }
+  
   const encrypted = CryptoJS.AES.encrypt(value, ENCRYPTION_KEY).toString();
-  console.log('✓ Data encrypted — raw value:', encrypted);
+  console.log('✓ Data encrypted');
   return encrypted;
 }
 
@@ -132,10 +142,27 @@ function encryptData(value) {
  * Decrypt a value retrieved from localStorage using CryptoJS
  */
 function decryptData(encryptedValue) {
-  const bytes = CryptoJS.AES.decrypt(encryptedValue, ENCRYPTION_KEY);
-  const decrypted = bytes.toString(CryptoJS.enc.Utf8);
-  console.log('✓ Data decrypted — plain value:', decrypted);
-  return decrypted;
+  // ✨ IMPROVED: Add error handling for decryption
+  try {
+    if (typeof CryptoJS === 'undefined') {
+      console.error('⚠️ CryptoJS not loaded. Cannot decrypt.');
+      return null;
+    }
+    
+    const bytes = CryptoJS.AES.decrypt(encryptedValue, ENCRYPTION_KEY);
+    const decrypted = bytes.toString(CryptoJS.enc.Utf8);
+    
+    if (!decrypted) {
+      console.warn('⚠️ Decryption produced empty result. Data may be corrupted.');
+      return null;
+    }
+    
+    console.log('✓ Data decrypted successfully');
+    return decrypted;
+  } catch (e) {
+    console.error('⚠️ Decryption failed:', e);
+    return null;
+  }
 }
 
 /**
@@ -197,6 +224,11 @@ function initializeEncryption() {
         alert('Please enter an email to encrypt.');
         return;
       }
+
+      if (!email.includes('@')) {
+        console.warn('Input does not look like a valid email address.');
+      }
+
       saveEncryptedEmail(email);
       emailInput.value = '';
     });

@@ -124,7 +124,12 @@ function attachAuthEventListeners() {
     const username = document.getElementById('username').value.trim();
     const password = document.getElementById('password').value.trim();
 
-    if (!username || !password) return;
+    // ✨ IMPROVED: Validate input and provide user feedback
+    if (!username || !password) {
+      console.warn('⚠️ Login failed: Username or password is empty');
+      alert('Please enter both username and password.');
+      return;
+    }
 
     // Set authToken cookie — value: user123, expiry: 7 days, path: /
     const expiry = new Date();

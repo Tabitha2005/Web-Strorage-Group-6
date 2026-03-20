@@ -43,10 +43,12 @@ function loadSettings() {
       return JSON.parse(savedSettings);
     } catch (e) {
       console.warn('Failed to parse settings from localStorage:', e);
+      console.log('Using default settings instead.');
       return getDefaultSettings();
     }
   }
 
+  console.log('No saved settings found. Using defaults.');
   return getDefaultSettings();
 }
 
@@ -80,7 +82,14 @@ function applyTheme(theme, body) {
  * Apply font size to the document
  */
 function applyFontSize(fontSize) {
-  document.documentElement.style.fontSize = fontSize + 'px';
+  // ✨ IMPROVED: Clamp font size to reasonable range (12px - 24px)
+  const validSize = Math.max(12, Math.min(24, fontSize || 16));
+  
+  if (fontSize !== validSize) {
+    console.warn(`⚠️ Font size out of range (${fontSize}px). Clamped to ${validSize}px`);
+  }
+  
+  document.documentElement.style.fontSize = validSize + 'px';
 }
 
 /**
@@ -167,7 +176,10 @@ function attachThemeEventListeners(themeToggle, settings) {
   // Font size slider (Challenge task)
   const fontSizeSlider = document.getElementById('fontSizeSlider');
   if (fontSizeSlider) {
-    fontSizeSlider.value = settings.fontSize;
+    // ✨ IMPROVED: Set slider bounds to match applyFontSize() validation
+    fontSizeSlider.min = '12';
+    fontSizeSlider.max = '24';
+    fontSizeSlider.value = Math.max(12, Math.min(24, settings.fontSize || 16));
 
     fontSizeSlider.addEventListener('input', function () {
       const newFontSize = parseInt(this.value);
