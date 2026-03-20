@@ -1,0 +1,43 @@
+# Planning and Documentation
+# Keep local, never commit to repository
+doc_and_planning/
+
+# Optional npm cache directory
+.npm
+
+# Optional eslint cache
+.eslintcache
+
+# Optional REPL history
+.node_repl_history
+
+# Output of 'npm pack'
+*.tgz
+
+# Output of 'npm pack'
+*.tgz
+
+# Ignore user-specific files
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+
+# IDE specific files
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Node modules (if applicable)
+node_modules/
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# Build outputs
+dist/
+build/

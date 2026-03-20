@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>E-Commerce Web Storage Demo</title>
+  <link rel="stylesheet" href="styles/main.css">
+  <!-- CryptoJS CDN — required for Task 4 Challenge: encrypt sensitive data in localStorage -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+</head>
+<body class="light-theme">
+  <header>
+    <div class="header-container">
+      <h1>E-Commerce Demo</h1>
+      <div class="header-controls">
+        <button id="themeToggle" class="btn btn-theme">Switch to Dark Mode</button>
+        <div class="cart-info">
+          <span>Cart Items: <span id="cartCount">0</span></span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- Task 1: Authentication — always visible -->
+    <section id="auth" class="auth-section">
+      <h2>Authentication (Cookies)</h2>
+      <form id="loginForm" class="login-form">
+        <div class="form-group">
+          <label for="username">Username:</label>
+          <input type="text" id="username" name="username" required>
+        </div>
+        <div class="form-group">
+          <label for="password">Password:</label>
+          <input type="password" id="password" name="password" required>
+        </div>
+        <input type="hidden" id="authCsrfToken" name="csrfToken">
+        <button type="submit" class="btn btn-primary">Login</button>
+      </form>
+
+      <div id="logoutSection" class="logout-section" style="display: none;">
+        <p id="welcomeMessage"></p>
+        <button id="logoutBtn" class="btn btn-danger">Logout</button>
+      </div>
+    </section>
+
+    <!-- Task 2: Settings — hidden until logged in -->
+    <section id="settings" class="settings-section" style="display: none;">
+      <h2>Settings (Local Storage)</h2>
+      <div class="settings-info">
+        <p>Current Theme: <strong><span id="currentTheme">light</span></strong></p>
+        <p>Font Size: <strong><span id="currentFontSize">16</span>px</strong></p>
+      </div>
+      <div class="form-group">
+        <label for="fontSizeSlider">Adjust Font Size:</label>
+        <input type="range" id="fontSizeSlider" min="12" max="20" value="16">
+      </div>
+    </section>
+
+    <!-- Task 3: Products — hidden until logged in -->
+    <section id="products" class="products-section" style="display: none;">
+      <h2>Products</h2>
+      <div id="productList" class="product-list"></div>
+    </section>
+
+    <!-- Task 3: Cart — hidden until logged in -->
+    <section id="cart" class="cart-section" style="display: none;">
+      <h2>Shopping Cart (Session Storage)</h2>
+      <div id="cartItems" class="cart-items"></div>
+      <div class="cart-summary">
+        <p>Total: $<span id="cartTotal">0.00</span></p>
+        <button id="clearCartBtn" class="btn btn-secondary">Clear Cart</button>
+      </div>
+    </section>
+
+    <!-- Task 4: Security — hidden until logged in -->
+    <section id="security" class="security-section" style="display: none;">
+      <h2>Security (XSS Prevention)</h2>
+
+      <!-- Review form — CSRF + encodeURIComponent sanitization -->
+      <form id="reviewForm" class="review-form">
+        <div class="form-group">
+          <label for="reviewInput">Add Product Review:</label>
+          <textarea id="reviewInput" name="review" placeholder="Try typing: &lt;script&gt;alert('XSS')&lt;/script&gt;" rows="4"></textarea>
+        </div>
+        <input type="hidden" id="reviewCsrfToken" name="csrfToken">
+        <button type="submit" class="btn btn-primary">Submit Review</button>
+      </form>
+
+      <div id="reviewsDisplay" class="reviews-display">
+        <h3>Reviews:</h3>
+        <ul id="reviewsList"></ul>
+      </div>
+
+      <!-- CryptoJS Encryption Challenge -->
+      <div class="encryption-demo">
+        <h3>Challenge: Encrypt Sensitive Data (CryptoJS)</h3>
+        <p class="encryption-description">
+          Enter an email address below. It will be encrypted using CryptoJS AES
+          before being saved to localStorage. The raw stored value is unreadable
+          without the secret key.
+        </p>
+        <div class="form-group">
+          <label for="sensitiveEmailInput">User Email:</label>
+          <input type="email" id="sensitiveEmailInput" placeholder="e.g. user@example.com">
+        </div>
+        <div class="encryption-buttons">
+          <button id="saveEmailBtn" class="btn btn-primary">Encrypt &amp; Save to localStorage</button>
+          <button id="loadEmailBtn" class="btn btn-secondary">Decrypt &amp; Load from localStorage</button>
+        </div>
+        <div class="encryption-results">
+          <div class="form-group">
+            <label>Raw value in localStorage (encrypted — unreadable):</label>
+            <code id="encryptedValueDisplay" class="encrypted-display">—</code>
+          </div>
+          <div class="form-group">
+            <label>Decrypted value:</label>
+            <code id="decryptedValueDisplay" class="decrypted-display">—</code>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>CSRF Token (for debugging): <code id="csrfTokenDisplay" style="color: #e83e8c;"></code></p>
+    <p>Learn about Web Storage: Cookies, localStorage, and sessionStorage</p>
+  </footer>
+
+  <!-- Application modules -->
+  <script src="app/auth.js"></script>
+  <script src="app/theme.js"></script>
+  <script src="app/cart.js"></script>
+  <script src="app/security.js"></script>
+</body>
+</html>
